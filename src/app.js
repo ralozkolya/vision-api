@@ -13,75 +13,29 @@ $(function () {
     var states = {
         initial: "initial",
         confirm: "confirm",
-        return: "return",
+        return: "return"
     };
 
     var currentState = states.initial;
 
     var file;
 
-    $(window).on("orientationchange, resize", function () {
-        if(currentState === states.confirm) {
-            var image = content.children("img").get(0);
-            image = resizeImage(image);
-            content.append(image);
-        }
-    });
-
-    $("#camera-button").on("click", function () {
-        field.click();
-    });
-
-    $("#retry-button").on("click", function () {
-        showState(states.initial);
-    });
-
-    $("#send-button").on("click", function () {
-        if(!file) {
-            // TODO: Show error
-            return;
-        }
-
-        loading.show();
-
-        imageToBase64(file, sendToAPI);
-    });
-
-    $("#return-button").on("click", function () {
-        showState(states.initial);
-    });
-
-    field.on("change", function () {
-        var files = this.files;
-
-        if (files.length === 1 && files[0].type.indexOf("image/") === 0) {
-            file = files[0];
-            cameraIcon.hide();
-
-            var image = new Image();
-
-            $(image).on("load", function () {
-                image = resizeImage(image);
-                showState(states.confirm, image);
-            });
-
-            image.src = URL.createObjectURL(file);
-        }
-    });
-
+    /**
+     * @param imageData     Photo, encoded as base64
+     */
     function sendToAPI(imageData) {
 
-        imageData = imageData.replace("data:image/jpeg;base64,", "");
+        imageData = imageData.replace(/data:image\/(jpeg|png);base64,/, "");
 
         var data = {
             requests: [{
                 image: {
-                        content: imageData,
+                    content: imageData
                 },
                 features: [{
-                    type: "TEXT_DETECTION",
-                }],
-            }],
+                    type: "TEXT_DETECTION"
+                }]
+            }]
         };
 
         $.ajax({
@@ -92,22 +46,24 @@ $(function () {
             success: handleResponse,
             complete: function () {
                 loading.hide();
-            },
+            }
         });
     }
 
+    /**
+     * @param response                              Response from Vision API
+     * @param response.responses                    Array of responses (for each request object)
+     * @param response.responses[].textAnnotations  Annotations for request, returned from Vision API
+     */
     function handleResponse(response) {
 
         var message;
 
-        if(response.responses &&
-            response.responses.length &&
-            response.responses[0].textAnnotations) {
-            var text = JSON.stringify(response.responses[0].textAnnotations).substr(0, 150);
+        if (response.responses &&
+                response.responses.length &&
+                response.responses[0].textAnnotations) {
             message = getMessage("Success!", "Your image has been successfully submitted");
-        }
-
-        else {
+        } else {
             message = getMessage("Error", "Vision API returned empty response");
         }
 
@@ -118,26 +74,22 @@ $(function () {
 
         content.children().not(".glyphicon-camera").remove();
 
-        if(element) {
+        if (element) {
             content.append(element);
         }
 
-        $(".step").not("."+state).addClass("hidden");
-        $("."+state).removeClass("hidden");
+        $(".step").not("." + state).addClass("hidden");
+        $("." + state).removeClass("hidden");
 
-        if(state === states.initial) {
+        if (state === states.initial) {
             cameraIcon.show();
             file = null;
             loading.hide();
             title.html("Take photo");
-        }
-
-        else if(state === states.confirm) {
+        } else if (state === states.confirm) {
             cameraIcon.hide();
             title.html("Confirm");
-        }
-
-        else if(state === states.return) {
+        } else if (state === states.return) {
             cameraIcon.hide();
             title.html($(".content h3").html());
         }
@@ -176,7 +128,7 @@ $(function () {
         var context = canvas.getContext("2d");
         var image = new Image();
 
-        image.addEventListener("load", function () {
+        $(image).on("load", function () {
             canvas.width = image.width;
             canvas.height = image.height;
             context.drawImage(image, 0, 0);
@@ -186,4 +138,52 @@ $(function () {
 
         image.src = URL.createObjectURL(file);
     }
+
+    $(window).on("orientationchange, resize", function () {
+        if (currentState === states.confirm) {
+            var image = content.children("img").get(0);
+            image = resizeImage(image);
+            content.append(image);
+        }
+    });
+
+    $("#camera-button").on("click", function () {
+        field.click();
+    });
+
+    $("#retry-button").on("click", function () {
+        showState(states.initial);
+    });
+
+    $("#send-button").on("click", function () {
+        if (!file) {
+            return;
+        }
+
+        loading.show();
+
+        imageToBase64(file, sendToAPI);
+    });
+
+    $("#return-button").on("click", function () {
+        showState(states.initial);
+    });
+
+    field.on("change", function (event) {
+        var files = event.target.files;
+
+        if (files.length === 1 && files[0].type.indexOf("image/") === 0) {
+            file = files[0];
+            cameraIcon.hide();
+
+            var image = new Image();
+
+            $(image).on("load", function () {
+                image = resizeImage(image);
+                showState(states.confirm, image);
+            });
+
+            image.src = URL.createObjectURL(file);
+        }
+    });
 });
