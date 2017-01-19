@@ -70,7 +70,7 @@ $(function () {
 
     function sendToAPI(imageData) {
 
-        imageData = imageData.replace("data:image/png;base64,", "");
+        imageData = imageData.replace("data:image/jpeg;base64,", "");
 
         var data = {
             requests: [{
@@ -177,7 +177,7 @@ $(function () {
             canvas.height = image.height;
             context.drawImage(image, 0, 0);
 
-            callback(canvas.toDataURL());
+            callback(canvas.toDataURL('image/jpeg'));
         });
 
         image.src = URL.createObjectURL(file);
