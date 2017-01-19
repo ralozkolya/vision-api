@@ -1,0 +1,1 @@
+Page to take photo and check text annotations with Google Vision API

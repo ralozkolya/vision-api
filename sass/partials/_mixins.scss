@@ -1,0 +1,5 @@
+@mixin header-footer() {
+  padding: 15px;
+  background: $bg-color;
+  box-shadow: 0 0 3px #555;
+}

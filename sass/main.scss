@@ -1,0 +1,71 @@
+@import 'partials/variables';
+@import 'partials/mixins';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+header {
+  @include header-footer();
+
+  > h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+footer {
+  @include header-footer();
+
+  .btn {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+
+    > .glyphicon {
+      margin-right: 5px;
+    }
+  }
+}
+
+img {
+  max-width: 100%;
+}
+
+.loading {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-grow: 1;
+
+  > .glyphicon-camera {
+    font-size: 100px;
+    color: $bg-color;
+  }
+}
+
+#image-field {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  left: -2000px;
+}

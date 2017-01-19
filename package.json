@@ -1,0 +1,16 @@
+{
+  "name": "vision-api",
+  "version": "1.0.0",
+  "description": "Page to take photo and check text annotations with Google Vision API",
+  "author": "Nikoloz Razmadze (raloz1@gmail.com)",
+  "license": "ISC",
+  "scripts": {
+    "dev": "gulp"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-closure-compiler": "^0.4.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-webserver": "^0.9.1"
+  }
+}
