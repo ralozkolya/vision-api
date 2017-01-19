@@ -4,6 +4,7 @@ $(function () {
     var key = "AIzaSyACeyKJMbP_UjY3f0NexgRj97pPLGVEa8A";
     var url = "https://vision.googleapis.com/v1/images:annotate?key=" + key;
 
+    var title = $("header > h1");
     var field = $("#camera-field");
     var content = $(".content");
     var cameraIcon = content.children(".glyphicon-camera");
@@ -21,7 +22,7 @@ $(function () {
 
     $(window).on("orientationchange, resize", function () {
         if(currentState === states.confirm) {
-            var image = content.children('img').get(0);
+            var image = content.children("img").get(0);
             image = resizeImage(image);
             content.append(image);
         }
@@ -103,7 +104,7 @@ $(function () {
             response.responses.length &&
             response.responses[0].textAnnotations) {
             var text = JSON.stringify(response.responses[0].textAnnotations).substr(0, 150);
-            message = getMessage("Success", text);
+            message = getMessage("Success!", "Your image has been successfully submitted");
         }
 
         else {
@@ -128,14 +129,17 @@ $(function () {
             cameraIcon.show();
             file = null;
             loading.hide();
+            title.html("Take photo");
         }
 
         else if(state === states.confirm) {
             cameraIcon.hide();
+            title.html("Confirm");
         }
 
         else if(state === states.return) {
             cameraIcon.hide();
+            title.html($(".content h3").html());
         }
 
         currentState = state;
@@ -177,7 +181,7 @@ $(function () {
             canvas.height = image.height;
             context.drawImage(image, 0, 0);
 
-            callback(canvas.toDataURL('image/jpeg'));
+            callback(canvas.toDataURL("image/jpeg"));
         });
 
         image.src = URL.createObjectURL(file);
