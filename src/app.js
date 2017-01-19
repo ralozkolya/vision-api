@@ -4,7 +4,7 @@ $(function () {
     var key = "AIzaSyACeyKJMbP_UjY3f0NexgRj97pPLGVEa8A";
     var url = "https://vision.googleapis.com/v1/images:annotate?key=" + key;
 
-    var field = $("#image-field");
+    var field = $("#camera-field");
     var content = $(".content");
     var cameraIcon = content.children(".glyphicon-camera");
     var loading = $(".loading");
