@@ -22,13 +22,17 @@ header {
 footer {
   @include header-footer();
 
+  .col-xs-6 {
+    padding: 0 5px;
+  }
+
   .btn {
     text-transform: uppercase;
     font-size: 16px;
     font-weight: bold;
 
     > .glyphicon {
-      margin-right: 5px;
+      margin-right: 3px;
     }
   }
 }
@@ -54,6 +58,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
   padding: 10px;
   flex-grow: 1;
 
