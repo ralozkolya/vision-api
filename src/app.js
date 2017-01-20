@@ -194,8 +194,7 @@ $(function () {
     }
 
     /**
-     * Generates Div element to be appended to content.
-     * Used for showing message to user.
+     * Switches to finish state and displays title and message
      *
      * @param {string} title - Title of the message.
      * It'll be included in h3 tag, and same title will be set in header
