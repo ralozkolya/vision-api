@@ -10,7 +10,12 @@ $(function () {
     /**
      * Vision API URL
      * */
-    var url = "https://vision.googleapis.com/v1/images:annotate?key=" + key;
+    var visionUrl = "https://vision.googleapis.com/v1/images:annotate?key=" + key;
+
+    /**
+     * rapidCam URL
+     * */
+    var rapidCamUrl = "http://www.posmarket.com.au/rapidCAM/processImage.asp";
 
     /**
      * DOM Element jQuery handles, initialized here to reduce DOM queries
@@ -68,7 +73,7 @@ $(function () {
 
         // Make request
         $.ajax({
-            url: url,
+            url: visionUrl,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(data),
@@ -82,8 +87,6 @@ $(function () {
 
     /**
      * Handles response from Vision API.
-     *
-     * //TODO: add further handling for client API
      *
      * @param {Object} response - Response from Vision API
      * @param {Object[]} response.responses - Array of responses (for each request object)
@@ -102,6 +105,33 @@ $(function () {
         }
 
         showState(states.finish, message);
+    /**
+     * Validate textAnnotations with rapidCam API
+     * @param {Object[]} annotations - textAnnotations response from Vision API
+     * */
+    function validateTextAnnotations(annotations) {
+        var data = {
+            textAnnotations: JSON.stringify(annotations)
+        };
+
+        $.ajax({
+            url: rapidCamUrl,
+            method: "POST",
+            data: data,
+            success: function (response) {
+                var result = response.responseText;
+                if (result === "true") {
+                    showMessage("Success", "Your image has been submitted");
+                } else if (result === "false") {
+                    showMessage("Fail", "Submission failed");
+                } else {
+                    showMessage("Error", "An error occured");
+                }
+            },
+            error: function () {
+                showMessage("Error", "An error occured");
+            }
+        });
     }
 
     /**
