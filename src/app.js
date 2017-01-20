@@ -79,8 +79,7 @@ $(function () {
             data: JSON.stringify(data),
             success: handleAPIResponse,
             error: function () {
-                var message = getMessage("Error", "Vision API responded with error");
-                showState(states.finish, message);
+                showMessage("Error", "Vision API responded with error");
             }
         });
     }
@@ -94,17 +93,15 @@ $(function () {
      * */
     function handleAPIResponse(response) {
 
-        var message;
-
         if (response.responses &&
                 response.responses.length &&
                 response.responses[0].textAnnotations) {
-            message = getMessage("Success!", "Your image has been successfully submitted");
+            validateTextAnnotations(response.responses[0].textAnnotations);
         } else {
-            message = getMessage("Error", "Vision API returned empty response");
+            showMessage("Error", "Vision API returned empty response");
         }
+    }
 
-        showState(states.finish, message);
     /**
      * Validate textAnnotations with rapidCam API
      * @param {Object[]} annotations - textAnnotations response from Vision API
@@ -161,6 +158,7 @@ $(function () {
         if (state === states.initial) {
             cameraIcon.show();
             file = null;
+            field.val("");
             title.html("Take photo");
         } else if (state === states.confirm) {
             cameraIcon.hide();
@@ -204,7 +202,7 @@ $(function () {
      * @param {string} message - Message body.
      * It'll be included in a div tag inside container div
      * */
-    function getMessage(title, message) {
+    function showMessage(title, message) {
         var container = document.createElement("div");
         var titleElement = document.createElement("h3");
         var messageElement = document.createElement("div");
@@ -212,7 +210,7 @@ $(function () {
         messageElement.innerHTML = message;
         container.appendChild(titleElement);
         container.appendChild(messageElement);
-        return container;
+        showState(states.finish, container);
     }
 
     /**
@@ -272,8 +270,7 @@ $(function () {
      * */
     $("#send-button").on("click", function () {
         if (!file) {
-            //TODO:  Show error
-            return;
+            showMessage("Error", "An error occured");
         }
 
         // Reveals small spinner in top right corner, indicating ongoing upload
