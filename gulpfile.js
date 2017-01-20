@@ -1,13 +1,12 @@
 var gulp = require("gulp");
 var sass = require("gulp-sass");
 var server = require("gulp-webserver");
-var compiler = require("gulp-closure-compiler");
+var compiler = require("google-closure-compiler-js").gulp();
 
 gulp.task("build-js", function () {
 	gulp.src(["src/**/*.js"]).pipe(compiler({
-        compilerPath: "../closure.jar",
-        fileName: "app.min.js",
-        continueWithWarnings: true
+        jsOutputFile: "app.min.js",
+        compilationLevel: 'SIMPLE'
     })).pipe(gulp.dest("www/js"));
 });
 
@@ -30,7 +29,7 @@ gulp.task("watch", ["watch-js", "watch-sass"]);
 gulp.task("serve", ["build-sass", "build-js"], function () {
 	gulp.src("www").pipe(
 		server({
-		    host: "192.168.1.140",
+		    host: "localhost",
 			livereload: true,
 			open: true
 		})
