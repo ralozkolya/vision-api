@@ -37,3 +37,5 @@ gulp.task("serve", ["build-sass", "build-js"], function () {
 });
 
 gulp.task("default", ["build-js", "build-sass", "watch", "serve"]);
+
+gulp.task("build", ["build-js", "build-sass"]);

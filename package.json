@@ -6,7 +6,8 @@
   "repository": "git@gitlab.com:kolyness/vision-api.git",
   "license": "ISC",
   "scripts": {
-    "dev": "gulp"
+    "dev": "gulp",
+    "build": "gulp build"
   },
   "devDependencies": {
     "google-closure-compiler-js": "^20161201.0.1",
