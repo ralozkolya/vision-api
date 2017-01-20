@@ -1,8 +1,15 @@
 $(function () {
     "use strict";
 
-
+    /**
+     * Vision API key
+     * Replace with your own
+     * */
     var key = "AIzaSyACeyKJMbP_UjY3f0NexgRj97pPLGVEa8A";
+
+    /**
+     * Vision API URL
+     * */
     var url = "https://vision.googleapis.com/v1/images:annotate?key=" + key;
 
     /**
