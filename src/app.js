@@ -116,10 +116,9 @@ $(function () {
             method: "POST",
             data: data,
             success: function (response) {
-                var result = response.responseText;
-                if (result === "true") {
+                if (response === "true") {
                     showMessage("Success", "Your image has been submitted");
-                } else if (result === "false") {
+                } else if (response === "false") {
                     showMessage("Fail", "Submission failed");
                 } else {
                     showMessage("Error", "An error occured");

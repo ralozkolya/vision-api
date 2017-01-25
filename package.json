@@ -7,7 +7,8 @@
   "license": "ISC",
   "scripts": {
     "dev": "gulp",
-    "build": "gulp build"
+    "build": "gulp build",
+    "postinstall": "npm run build"
   },
   "devDependencies": {
     "google-closure-compiler-js": "^20161201.0.1",
