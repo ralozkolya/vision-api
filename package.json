@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Page to take photo and check text annotations with Google Vision API",
   "author": "Nikoloz Razmadze (raloz1@gmail.com)",
-  "repository": "git@gitlab.com:kolyness/vision-api.git",
+  "repository": "https://github.com/ralozkolya/vision-api.git",
   "license": "ISC",
   "scripts": {
     "dev": "gulp",
